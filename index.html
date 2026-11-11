@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Overview · Pulse</title>
+    <meta
+      name="description"
+      content="Pulse is the operations platform for projects, customers, tasks and teams."
+    />
+    <meta name="theme-color" content="#09090d" />
+    <link rel="icon" type="image/png" href="assets/icons/pulseops.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
+    />
+
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/palette.css" />
+    <link rel="stylesheet" href="css/pages/overview.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <div
+      class="app"
+      id="app"
+      data-sidebar="expanded"
+      data-drawer="closed"
+    ></div>
+
+    <div
+      class="toast-region"
+      id="toast-region"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+    <noscript><p class="noscript">Pulse needs JavaScript to run.</p></noscript>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
