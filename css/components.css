@@ -833,3 +833,50 @@
     justify-content: center;
   }
 }
+
+/* Due date states */
+.due--today {
+  color: var(--color-warning);
+}
+.due--overdue {
+  color: var(--color-danger);
+}
+
+/* Select field (native select with an inline label) */
+.select-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 8rem;
+  height: 2.5rem;
+  padding: 0 0.625rem 0 0.875rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-sidebar);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  transition: border-color var(--dur) var(--ease);
+}
+.select-field:focus-within {
+  border-color: rgba(143, 125, 247, 0.55);
+}
+.select-field select {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding-right: 1.25rem;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  appearance: none;
+  cursor: pointer;
+}
+.select-field > .icon {
+  position: absolute;
+  right: 0.625rem;
+  pointer-events: none;
+}

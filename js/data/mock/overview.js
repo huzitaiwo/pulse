@@ -112,7 +112,7 @@ export const overview = {
       due: "May 22",
       priority: "High",
       tone: "danger",
-      assignee: "Tolu",
+      assignee: "Cryptix",
     },
   ],
   activity: [

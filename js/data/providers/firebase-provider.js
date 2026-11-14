@@ -101,3 +101,20 @@ export async function updateProjectStatus(id, status) {
     status,
   });
 }
+
+/* Expected collection: workspaces/{workspaceId}/tasks/{taskId}  (same shape as data/mock/tasks.js) */
+export async function getTasks() {
+  const { workspaceId } = await load();
+  const snap = await getDocs(
+    collection(db, "workspaces", workspaceId, "tasks"),
+  );
+  return {
+    today: new Date().toISOString().slice(0, 10),
+    tasks: snap.docs.map((d) => ({ id: d.id, ...d.data() })),
+  };
+}
+
+export async function updateTaskStatus(id, status) {
+  const { workspaceId } = await load();
+  await updateDoc(doc(db, "workspaces", workspaceId, "tasks", id), { status });
+}

@@ -19,4 +19,7 @@ export const repository = {
   getProjects: async () => (await provider()).getProjects(),
   updateProjectStatus: async (id, status) =>
     (await provider()).updateProjectStatus(id, status),
+  getTasks: async () => (await provider()).getTasks(),
+  updateTaskStatus: async (id, status) =>
+    (await provider()).updateTaskStatus(id, status),
 };
