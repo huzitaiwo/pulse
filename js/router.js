@@ -3,6 +3,7 @@ import { NAV_ITEMS } from "./config/navigation.js";
 /** Hash router. Pages are lazy-loaded modules exporting render(outlet, ctx) → optional cleanup fn. */
 const ROUTES = {
   "/overview": () => import("./pages/overview.js"),
+  "/analytics": () => import("./pages/analytics.js"),
 };
 
 export function startRouter({ outlet, session, onNavigate }) {

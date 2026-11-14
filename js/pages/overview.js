@@ -2,7 +2,7 @@ import { repository } from "../data/repository.js";
 import { icon } from "../ui/icons.js";
 import { renderAreaChart } from "../charts/area-chart.js";
 import { renderDonut } from "../charts/donut-chart.js";
-import { countUp } from "../utils/motion.js";
+import { statCard, trendMarkup, animateStats } from "../ui/stat-card.js";
 import {
   esc,
   initials,
@@ -31,8 +31,8 @@ function skeleton(session) {
   return `${header(session)}
     <div aria-busy="true" aria-label="Loading overview">
       <div class="stats__grid">${[0, 1, 2, 3].map(() => card("5.5rem")).join("")}</div>
-      <div class="overview__row overview__row--split">${card("17rem")}${card("17rem")}</div>
-      <div class="overview__row overview__row--even">${card("10rem")}${card("10rem")}</div>
+      <div class="layout-row layout-row--split">${card("17rem")}${card("17rem")}</div>
+      <div class="layout-row layout-row--even">${card("10rem")}${card("10rem")}</div>
     </div>`;
 }
 
@@ -45,10 +45,6 @@ function errorState() {
   </div>`;
 }
 
-const trendMarkup = (t, note = "vs. prior period") => `
-  <p class="trend trend--${t.dir}">${icon(t.dir === "up" ? "arrow-up-right" : "arrow-down-right", { size: 14 })}
-    <strong><span class="sr-only">${t.dir === "up" ? "Up" : "Down"} </span>${t.pct}%</strong><span class="trend__note">${note}</span></p>`;
-
 function content(session, data) {
   const { revenue, health } = data;
   const first = revenue.points[0].label,
@@ -57,21 +53,10 @@ function content(session, data) {
   return `${header(session)}
     <section aria-labelledby="stats-title" class="stats">
       <h2 class="sr-only" id="stats-title">Key metrics</h2>
-      <ul class="stats__grid" role="list">
-        ${data.stats
-          .map(
-            (s, i) => `
-          <li class="card stat reveal" style="--i:${i + 1}">
-            <div class="stat__top"><p class="stat__label">${esc(s.label)}</p><span class="icon-chip" aria-hidden="true">${icon(s.icon, { size: 16 })}</span></div>
-            <p class="stat__value" data-count="${i}">${esc(s.prefix)}${s.value}${esc(s.suffix)}</p>
-            ${trendMarkup(s.trend)}
-          </li>`,
-          )
-          .join("")}
-      </ul>
+      <ul class="stats__grid" role="list">${data.stats.map((s, i) => statCard(s, i)).join("")}</ul>
     </section>
 
-    <div class="overview__row overview__row--split">
+    <div class="layout-row layout-row--split">
       <section class="card reveal" style="--i:5" aria-labelledby="revenue-title">
         <header class="card__head">
           <div><p class="eyebrow">Revenue</p><h2 class="card__title" id="revenue-title">Revenue performance</h2></div>
@@ -100,7 +85,7 @@ function content(session, data) {
       </section>
     </div>
 
-    <div class="overview__row overview__row--even">
+    <div class="layout-row layout-row--even">
       <section class="card reveal" style="--i:7" aria-labelledby="focus-title">
         <header class="card__head">
           <div><p class="eyebrow">Your focus</p><h2 class="card__title" id="focus-title">Priority actions</h2></div>
@@ -156,15 +141,7 @@ export function render(outlet, { session }) {
       if (!alive) return;
       outlet.innerHTML = content(session, data);
 
-      outlet.querySelectorAll("[data-count]").forEach((el) => {
-        const s = data.stats[Number(el.dataset.count)];
-        countUp(el, {
-          to: s.value,
-          decimals: s.decimals,
-          prefix: s.prefix,
-          suffix: s.suffix,
-        });
-      });
+      animateStats(outlet, data.stats);
       renderAreaChart(outlet.querySelector("[data-chart=revenue]"), {
         points: data.revenue.points,
         format: formatCurrency,

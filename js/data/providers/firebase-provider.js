@@ -59,3 +59,16 @@ export async function getOverview() {
   if (!snap.exists()) throw new Error("Overview data not found");
   return snap.data();
 }
+
+/* Expected doc: workspaces/{workspaceId}/analytics/{range}_{granularity}  (same shape as buildAnalytics() in data/mock/analytics.js) */
+export async function getAnalytics({
+  range = "may",
+  granularity = "monthly",
+} = {}) {
+  const { workspaceId } = await load();
+  const snap = await getDoc(
+    doc(db, "workspaces", workspaceId, "analytics", `${range}_${granularity}`),
+  );
+  if (!snap.exists()) throw new Error("Analytics data not found");
+  return snap.data();
+}

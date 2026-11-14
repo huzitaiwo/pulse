@@ -48,8 +48,8 @@ export function renderAreaChart(
     <div class="chart__guide" hidden></div>
     <div class="chart__dot" hidden></div>
     <div class="chart__tip" hidden aria-hidden="true"></div>
-    <table class="sr-only"><caption>${seriesLabel} by month</caption>
-      <thead><tr><th scope="col">Month</th><th scope="col">${seriesLabel}</th></tr></thead>
+    <table class="sr-only"><caption>${seriesLabel} over time</caption>
+      <thead><tr><th scope="col">Period</th><th scope="col">${seriesLabel}</th></tr></thead>
       <tbody>${points.map((p) => `<tr><th scope="row">${p.label}</th><td>${format(p.value)}</td></tr>`).join("")}</tbody>
     </table>`;
 
