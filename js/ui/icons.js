@@ -45,6 +45,7 @@ const PATHS = {
   clock:
     '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
   chevdown: '<path d="m6 9 6 6 6-6"/>',
+  filter: '<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>',
 };
 
 export function icon(name, { size = 18, className = "icon" } = {}) {

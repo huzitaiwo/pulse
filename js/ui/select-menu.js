@@ -3,10 +3,10 @@ import { esc } from "../utils/format.js";
 
 let uid = 0;
 
-/** Accessible dropdown. mountSelectMenu(hostEl, { label, options: [{ value, label }], value, icon, onChange }) */
+/** mountSelectMenu(host, { label, options: [{ value, label }], value, icon, iconOnly, onChange }) */
 export function mountSelectMenu(
   host,
-  { label, options, value, icon: leading, onChange },
+  { label, options, value, icon: leading, iconOnly = false, onChange },
 ) {
   const id = `select-menu-${++uid}`;
   let selected = Math.max(
@@ -17,23 +17,27 @@ export function mountSelectMenu(
 
   host.classList.add("select-menu");
   host.innerHTML = `
-    <button class="select-menu__button" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}"
-            aria-label="${esc(label)}: ${esc(options[selected].label)}">
-      ${leading ? icon(leading, { size: 15 }) : ""}<span>${esc(options[selected].label)}</span>${icon("chevdown", { size: 15 })}
-    </button>
-    <ul class="select-menu__list" id="${id}" role="listbox" aria-label="${esc(label)}" tabindex="-1" hidden>
-      ${options
-        .map(
-          (o, i) => `
-        <li class="select-menu__option" role="option" id="${id}-${i}" data-index="${i}" aria-selected="${i === selected}">
-          <span>${esc(o.label)}</span>${i === selected ? icon("check", { size: 14 }) : ""}
-        </li>`,
-        )
-        .join("")}
-    </ul>`;
+    <button class="select-menu__button${iconOnly ? " select-menu__button--icon" : ""}" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}"></button>
+    <ul class="select-menu__list" id="${id}" role="listbox" aria-label="${esc(label)}" tabindex="-1" hidden></ul>`;
 
   const button = host.querySelector("button");
   const list = host.querySelector("ul");
+
+  function paint() {
+    const current = options[selected];
+    button.setAttribute("aria-label", `${label}: ${current.label}`);
+    button.innerHTML = iconOnly
+      ? icon(leading, { size: 18 })
+      : `${leading ? icon(leading, { size: 15 }) : ""}<span>${esc(current.label)}</span>${icon("chevdown", { size: 15 })}`;
+    list.innerHTML = options
+      .map(
+        (o, i) => `
+      <li class="select-menu__option" role="option" id="${id}-${i}" data-index="${i}" aria-selected="${i === selected}">
+        <span>${esc(o.label)}</span>${i === selected ? icon("check", { size: 14 }) : ""}
+      </li>`,
+      )
+      .join("");
+  }
 
   const setActive = (i) => {
     active = (i + options.length) % options.length;
@@ -60,8 +64,13 @@ export function mountSelectMenu(
   };
   const choose = (i) => {
     close();
-    if (i !== selected) onChange(options[i].value, options[i]);
+    if (i === selected) return;
+    selected = i;
+    paint();
+    onChange(options[i].value, options[i]);
   };
+
+  paint();
 
   button.addEventListener("click", () => (list.hidden ? open() : close()));
   button.addEventListener("keydown", (e) => {

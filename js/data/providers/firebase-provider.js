@@ -1,6 +1,8 @@
 import {
+  collection,
   doc,
   getDoc,
+  getDocs,
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { auth, db } from "../../firebase/client.js";
@@ -39,6 +41,7 @@ async function load() {
 export async function getSession() {
   const { profile, workspaceId, workspace } = await load();
   return {
+    live: true,
     user: {
       id: profile.id ?? "",
       name: profile.name,
@@ -71,4 +74,13 @@ export async function getAnalytics({
   );
   if (!snap.exists()) throw new Error("Analytics data not found");
   return snap.data();
+}
+
+/* Expected collection: workspaces/{workspaceId}/customers/{customerId}  (same shape as data/mock/customers.js) */
+export async function getCustomers() {
+  const { workspaceId } = await load();
+  const snap = await getDocs(
+    collection(db, "workspaces", workspaceId, "customers"),
+  );
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }

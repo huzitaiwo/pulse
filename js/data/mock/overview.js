@@ -1,5 +1,6 @@
 /** Demo data. Replaced by Firestore reads when APP_CONFIG.dataSource === "firebase". */
 export const session = {
+  live: false,
   user: {
     id: "u-handsome",
     name: "Handsome",

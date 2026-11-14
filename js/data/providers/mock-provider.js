@@ -1,6 +1,7 @@
 import { APP_CONFIG } from "../../config/app-config.js";
 import { session, overview } from "../mock/overview.js";
 import { buildAnalytics } from "../mock/analytics.js";
+import { customers } from "../mock/customers.js";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const demoState = () => new URLSearchParams(location.search).get("state");
@@ -23,4 +24,9 @@ export async function getOverview() {
 export async function getAnalytics(options) {
   await simulate();
   return buildAnalytics(options);
+}
+
+export async function getCustomers() {
+  await simulate();
+  return structuredClone(customers);
 }

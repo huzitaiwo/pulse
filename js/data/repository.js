@@ -15,4 +15,5 @@ export const repository = {
   getSession: async () => (await provider()).getSession(),
   getOverview: async () => (await provider()).getOverview(),
   getAnalytics: async (options) => (await provider()).getAnalytics(options),
+  getCustomers: async () => (await provider()).getCustomers(),
 };

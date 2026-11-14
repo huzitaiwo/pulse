@@ -4,6 +4,7 @@ import { NAV_ITEMS } from "./config/navigation.js";
 const ROUTES = {
   "/overview": () => import("./pages/overview.js"),
   "/analytics": () => import("./pages/analytics.js"),
+  "/customers": () => import("./pages/customers.js"),
 };
 
 export function startRouter({ outlet, session, onNavigate }) {
