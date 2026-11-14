@@ -7,6 +7,7 @@ const ROUTES = {
   "/customers": () => import("./pages/customers.js"),
   "/projects": () => import("./pages/projects.js"),
   "/tasks": () => import("./pages/tasks.js"),
+  "/calendar": () => import("./pages/calendar.js"),
 };
 
 export function startRouter({ outlet, session, onNavigate }) {

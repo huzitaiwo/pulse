@@ -22,4 +22,5 @@ export const repository = {
   getTasks: async () => (await provider()).getTasks(),
   updateTaskStatus: async (id, status) =>
     (await provider()).updateTaskStatus(id, status),
+  getCalendar: async () => (await provider()).getCalendar(),
 };

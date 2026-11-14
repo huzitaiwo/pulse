@@ -1,5 +1,5 @@
 /** Demo tasks. Replaced by Firestore reads when dataSource === "firebase". */
-export const DEMO_TODAY = "2026-05-19";
+export const DEMO_TODAY = "2026-05-20";
 
 const P = {
   handsome: { name: "Handsome", tone: "" },
@@ -34,7 +34,7 @@ export const tasks = [
     project: "Revamp client portal",
     priority: "high",
     status: "in-progress",
-    due: "2026-05-19",
+    due: "2026-05-20",
     assignee: P.handsome,
   },
   {

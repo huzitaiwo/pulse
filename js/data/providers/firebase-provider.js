@@ -118,3 +118,15 @@ export async function updateTaskStatus(id, status) {
   const { workspaceId } = await load();
   await updateDoc(doc(db, "workspaces", workspaceId, "tasks", id), { status });
 }
+
+/* Expected collection: workspaces/{workspaceId}/events/{eventId}  (same shape as data/mock/calendar.js) */
+export async function getCalendar() {
+  const { workspaceId } = await load();
+  const snap = await getDocs(
+    collection(db, "workspaces", workspaceId, "events"),
+  );
+  return {
+    today: new Date().toISOString().slice(0, 10),
+    events: snap.docs.map((d) => ({ id: d.id, ...d.data() })),
+  };
+}

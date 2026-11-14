@@ -20,6 +20,7 @@ export function mountSelectMenu(
     iconOnly = false,
     chevron = true,
     collapseLabel = false,
+    align = "end",
     className = "",
     onChange,
   },
@@ -33,6 +34,7 @@ export function mountSelectMenu(
 
   host.classList.add("select-menu");
   if (collapseLabel) host.classList.add("select-menu--collapse");
+  if (align === "start") host.dataset.align = "start";
   className
     .split(" ")
     .filter(Boolean)
@@ -70,7 +72,11 @@ export function mountSelectMenu(
       .querySelectorAll("[role=option]")
       .forEach((el, n) => el.classList.toggle("is-active", n === active));
     list.setAttribute("aria-activedescendant", `${id}-${active}`);
+    list
+      .querySelector(`#${id}-${active}`)
+      ?.scrollIntoView({ block: "nearest" });
   };
+
   const outside = (e) => {
     if (!host.contains(e.target)) close(false);
   };
