@@ -6,6 +6,7 @@ import { projects } from "../mock/projects.js";
 import { tasks, DEMO_TODAY } from "../mock/tasks.js";
 import { events } from "../mock/calendar.js";
 import { team } from "../mock/team.js";
+import { reports } from "../mock/reports.js";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const demoState = () => new URLSearchParams(location.search).get("state");
@@ -83,4 +84,9 @@ export async function updateMemberStatus(id, status) {
   if (demoState() === "move-error") throw new Error("Simulated update failure");
   const member = teamStore.members.find((m) => m.id === id);
   if (member) member.status = status;
+}
+export async function getReports() {
+  await simulate();
+  const updatedAt = new Date().toISOString();
+  return structuredClone(reports).map((r) => ({ ...r, updatedAt }));
 }

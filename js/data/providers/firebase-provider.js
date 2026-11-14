@@ -149,3 +149,12 @@ export async function updateMemberStatus(id, status) {
     status,
   });
 }
+
+/* Expected collection: workspaces/{workspaceId}/reports/{reportId}  (same shape as data/mock/reports.js, plus updatedAt ISO string) */
+export async function getReports() {
+  const { workspaceId } = await load();
+  const snap = await getDocs(
+    collection(db, "workspaces", workspaceId, "reports"),
+  );
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}

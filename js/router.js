@@ -9,6 +9,7 @@ const ROUTES = {
   "/tasks": () => import("./pages/tasks.js"),
   "/calendar": () => import("./pages/calendar.js"),
   "/team": () => import("./pages/team.js"),
+  "/reports": () => import("./pages/reports.js"),
 };
 
 export function startRouter({ outlet, session, onNavigate }) {

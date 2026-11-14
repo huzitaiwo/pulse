@@ -26,4 +26,5 @@ export const repository = {
   getTeam: async () => (await provider()).getTeam(),
   updateMemberStatus: async (id, status) =>
     (await provider()).updateMemberStatus(id, status),
+  getReports: async () => (await provider()).getReports(),
 };

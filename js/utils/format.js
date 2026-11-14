@@ -44,3 +44,10 @@ export const formatShortDate = (iso) =>
     month: "short",
     day: "2-digit",
   });
+
+export function formatUpdated(iso) {
+  const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+  if (days <= 0) return "Updated today";
+  if (days === 1) return "Updated yesterday";
+  return `Updated ${days} days ago`;
+}
