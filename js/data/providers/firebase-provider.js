@@ -130,3 +130,22 @@ export async function getCalendar() {
     events: snap.docs.map((d) => ({ id: d.id, ...d.data() })),
   };
 }
+
+/* Expected: workspaces/{workspaceId}.utilization (number) and collection workspaces/{workspaceId}/members/{memberId} (same shape as data/mock/team.js) */
+export async function getTeam() {
+  const { workspaceId, workspace } = await load();
+  const snap = await getDocs(
+    collection(db, "workspaces", workspaceId, "members"),
+  );
+  return {
+    utilization: workspace.utilization ?? 0,
+    members: snap.docs.map((d) => ({ id: d.id, ...d.data() })),
+  };
+}
+
+export async function updateMemberStatus(id, status) {
+  const { workspaceId } = await load();
+  await updateDoc(doc(db, "workspaces", workspaceId, "members", id), {
+    status,
+  });
+}

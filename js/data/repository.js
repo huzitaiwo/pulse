@@ -23,4 +23,7 @@ export const repository = {
   updateTaskStatus: async (id, status) =>
     (await provider()).updateTaskStatus(id, status),
   getCalendar: async () => (await provider()).getCalendar(),
+  getTeam: async () => (await provider()).getTeam(),
+  updateMemberStatus: async (id, status) =>
+    (await provider()).updateMemberStatus(id, status),
 };

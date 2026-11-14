@@ -890,3 +890,12 @@
   max-height: 16rem;
   overflow-y: auto;
 }
+
+/* Extra tones */
+.avatar--slate {
+  background: #26262f;
+  color: var(--color-text-secondary);
+}
+.meter--muted {
+  --meter-color: var(--color-text-muted);
+}

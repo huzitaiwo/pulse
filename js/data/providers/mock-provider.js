@@ -5,6 +5,7 @@ import { customers } from "../mock/customers.js";
 import { projects } from "../mock/projects.js";
 import { tasks, DEMO_TODAY } from "../mock/tasks.js";
 import { events } from "../mock/calendar.js";
+import { team } from "../mock/team.js";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const demoState = () => new URLSearchParams(location.search).get("state");
@@ -67,4 +68,19 @@ export async function updateTaskStatus(id, status) {
 export async function getCalendar() {
   await simulate();
   return { today: DEMO_TODAY, events: structuredClone(events) };
+}
+
+let teamStore = structuredClone(team);
+
+export async function getTeam() {
+  await simulate();
+  return structuredClone(teamStore);
+}
+
+/** Add ?state=move-error to the URL to preview a failed status change. */
+export async function updateMemberStatus(id, status) {
+  await wait(150);
+  if (demoState() === "move-error") throw new Error("Simulated update failure");
+  const member = teamStore.members.find((m) => m.id === id);
+  if (member) member.status = status;
 }
