@@ -3,10 +3,26 @@ import { esc } from "../utils/format.js";
 
 let uid = 0;
 
-/** mountSelectMenu(host, { label, options: [{ value, label }], value, icon, iconOnly, onChange }) */
+/**
+ * mountSelectMenu(host, {
+ *   label, buttonLabel, options: [{ value, label }], value,
+ *   icon, iconOnly, chevron, collapseLabel, className, onChange
+ * })
+ */
 export function mountSelectMenu(
   host,
-  { label, options, value, icon: leading, iconOnly = false, onChange },
+  {
+    label,
+    buttonLabel,
+    options,
+    value,
+    icon: leading,
+    iconOnly = false,
+    chevron = true,
+    collapseLabel = false,
+    className = "",
+    onChange,
+  },
 ) {
   const id = `select-menu-${++uid}`;
   let selected = Math.max(
@@ -16,6 +32,12 @@ export function mountSelectMenu(
   let active = selected;
 
   host.classList.add("select-menu");
+  if (collapseLabel) host.classList.add("select-menu--collapse");
+  className
+    .split(" ")
+    .filter(Boolean)
+    .forEach((c) => host.classList.add(c));
+
   host.innerHTML = `
     <button class="select-menu__button${iconOnly ? " select-menu__button--icon" : ""}" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}"></button>
     <ul class="select-menu__list" id="${id}" role="listbox" aria-label="${esc(label)}" tabindex="-1" hidden></ul>`;
@@ -25,10 +47,13 @@ export function mountSelectMenu(
 
   function paint() {
     const current = options[selected];
-    button.setAttribute("aria-label", `${label}: ${current.label}`);
+    button.setAttribute(
+      "aria-label",
+      `${buttonLabel ?? label}: ${current.label}`,
+    );
     button.innerHTML = iconOnly
       ? icon(leading, { size: 18 })
-      : `${leading ? icon(leading, { size: 15 }) : ""}<span>${esc(current.label)}</span>${icon("chevdown", { size: 15 })}`;
+      : `${leading ? icon(leading, { size: 15 }) : ""}<span class="select-menu__text">${esc(buttonLabel ?? current.label)}</span>${chevron ? icon("chevdown", { size: 15 }) : ""}`;
     list.innerHTML = options
       .map(
         (o, i) => `

@@ -2,6 +2,7 @@ import { APP_CONFIG } from "../../config/app-config.js";
 import { session, overview } from "../mock/overview.js";
 import { buildAnalytics } from "../mock/analytics.js";
 import { customers } from "../mock/customers.js";
+import { projects } from "../mock/projects.js";
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const demoState = () => new URLSearchParams(location.search).get("state");
@@ -29,4 +30,19 @@ export async function getAnalytics(options) {
 export async function getCustomers() {
   await simulate();
   return structuredClone(customers);
+}
+
+let projectStore = structuredClone(projects);
+
+export async function getProjects() {
+  await simulate();
+  return structuredClone(projectStore);
+}
+
+/** Add ?state=move-error to the URL to preview a failed status change. */
+export async function updateProjectStatus(id, status) {
+  await wait(150);
+  if (demoState() === "move-error") throw new Error("Simulated update failure");
+  const project = projectStore.find((p) => p.id === id);
+  if (project) project.status = status;
 }

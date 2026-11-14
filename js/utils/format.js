@@ -38,3 +38,9 @@ export function greeting(date = new Date()) {
   if (hour < 18) return "Good afternoon";
   return "Good evening";
 }
+
+export const formatShortDate = (iso) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "2-digit",
+  });

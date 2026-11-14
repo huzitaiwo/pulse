@@ -3,6 +3,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { auth, db } from "../../firebase/client.js";
@@ -83,4 +84,20 @@ export async function getCustomers() {
     collection(db, "workspaces", workspaceId, "customers"),
   );
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+/* Expected collection: workspaces/{workspaceId}/projects/{projectId}  (same shape as data/mock/projects.js) */
+export async function getProjects() {
+  const { workspaceId } = await load();
+  const snap = await getDocs(
+    collection(db, "workspaces", workspaceId, "projects"),
+  );
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
+
+export async function updateProjectStatus(id, status) {
+  const { workspaceId } = await load();
+  await updateDoc(doc(db, "workspaces", workspaceId, "projects", id), {
+    status,
+  });
 }
